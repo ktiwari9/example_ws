@@ -16,7 +16,7 @@ For this, you can go through the video lecture on [setting up Docker & VS Code](
 
 ### Building the Docker Image
 
-![ROS 2 Foxy Logo](https://upload.wikimedia.org/wikipedia/commons/2/21/ROS2_Foxy_Fitzroy_poster.png){height="100px" width="100px"}
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/21/ROS2_Foxy_Fitzroy_poster.png" width="200" height="200">
 
 ```bash
 docker build -t example_ws .
