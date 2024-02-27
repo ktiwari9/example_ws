@@ -10,6 +10,8 @@ This repository contains a ROS 2 workspace named `example_ws` that runs inside a
 
 Before you start, make sure you have Docker installed on your system.
 
+For this, you can go through the video lecture on [setting up Docker & VS Code](https://youtu.be/YgSkzPHKqhg?si=kYteMMlGn7VWomqJ).
+
 ## Getting Started
 
 ### Building the Docker Image
