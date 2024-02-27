@@ -1,4 +1,6 @@
 from setuptools import setup
+from glob import glob
+import os
 
 package_name = 'robot_spawn_pkg'
 
@@ -10,7 +12,9 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch/', ['launch/spawn_ttbot.launch.py'])
+        ('share/' + package_name + '/launch/', ['launch/spawn_ttbot.launch.py']),
+        ('share/' + package_name + '/urdf/', ['urdf/ttbot.urdf.xacro']),
+        ('share/' + package_name + '/worlds/', ['worlds/office.world'])
     ],
     install_requires=['setuptools'],
     zip_safe=True,
