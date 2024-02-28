@@ -27,6 +27,11 @@ docker build -t example_ws .
 git clone https://github.com/yourusername/example_ws.git
 ```
 
+### Installing package dependencies
+```
+./pkg_install.bash
+```
+
 ## ROS 2 Python Packages Included:
 This repository comes with the following ROS 2 Python packages included in the `src/` folder.
 
