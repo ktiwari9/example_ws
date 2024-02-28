@@ -1,5 +1,5 @@
 from setuptools import setup
-from glob import glob
+from setuptools import find_packages
 import os
 
 package_name = 'robot_spawn_pkg'
@@ -12,7 +12,10 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch/', ['launch/spawn_ttbot.launch.py']),
+        ('share/' + package_name + '/launch/', [
+            'launch/spawn_ttbot.launch.py',
+            'launch/spawn_ttbot_pose.launch.py',
+            ]),
         ('share/' + package_name + '/urdf/', ['urdf/ttbot.urdf.xacro']),
         ('share/' + package_name + '/worlds/', ['worlds/office.world'])
     ],
@@ -25,7 +28,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robot_spawnner = robot_spawn_pkg.spawn_bot:main'
+            'robot_spawner = robot_spawn_pkg.spawn_bot:main'
         ],
     },
 )

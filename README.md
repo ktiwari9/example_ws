@@ -30,9 +30,9 @@ git clone https://github.com/yourusername/example_ws.git
 ## ROS 2 Python Packages Included:
 This repository comes with the following ROS 2 Python packages included in the `src/` folder.
 
-| Package Name | Description |
-|-----------|-----------|
-| `robot_spawn_pkg` | Python package to spawn a custom 4 wheeled robot with camera and lidar |
+| Package Name | Node Name | Node Description |
+|--------------|-----------|-----------|
+| `robot_spawn_pkg` | `spawn_bot.py` | Python ROS2 node to spawn a custom 4 wheeled robot with camera and lidar at a preset initial pose|
 
 ## Additional resources:
 | Resource Name | Description |

@@ -7,3 +7,4 @@ install/
 log/
 src/*/resource
 src/*/test
+__pycache__/
