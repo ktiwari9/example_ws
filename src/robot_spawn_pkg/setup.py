@@ -17,7 +17,10 @@ setup(
             'launch/spawn_ttbot_pose.launch.py',
             ]),
         ('share/' + package_name + '/urdf/', ['urdf/ttbot.urdf.xacro']),
-        ('share/' + package_name + '/worlds/', ['worlds/office.world'])
+        ('share/' + package_name + '/worlds/', [
+            'worlds/office.world',
+            'worlds/empty.world'
+            ])
     ],
     install_requires=['setuptools'],
     zip_safe=True,
