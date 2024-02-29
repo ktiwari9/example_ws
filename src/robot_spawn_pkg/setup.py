@@ -31,7 +31,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'robot_spawner = robot_spawn_pkg.spawn_bot:main'
+            'robot_spawner = robot_spawn_pkg.spawn_bot:main',
+            'gazebo_launcher = robot_spawn_pkg.gazebo_launcher:main'
         ],
     },
 )
