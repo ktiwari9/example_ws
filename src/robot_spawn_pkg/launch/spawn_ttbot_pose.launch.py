@@ -73,12 +73,12 @@ def generate_launch_description():
             {'z': 0.0},
             {'R': 0.0}, # roll, pitch, yaw in Radians
             {'P': 0.0},
-            {'Y': math.pi/2}
+            {'Y': math.pi/4}
         ],
         arguments=["-topic", "/robot_description"],
         remappings=[
             ('/gazebo/spawn_entity','/spawn_entity'),
-            ('/gazebo/delete_entity','delete_entity')
+            ('/gazebo/delete_entity','/delete_entity')
         ]
         )
     

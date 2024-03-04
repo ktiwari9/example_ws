@@ -84,37 +84,6 @@ class GazeboLauncherNode(Node):
         # Call Function to Spawn Robot
         self.spawn_robot('ttbot_ns', initial_pose)
 
-    def quaternion_to_euler(self, quaternion):
-        """
-        Utility function to convert quaternion to euler anlges in radians
-        """
-        x = quaternion.x    #[1]
-        y = quaternion.y    #[2]
-        z = quaternion.Z    #[3]
-        w = quaternion.w    #[0]
-
-        sinr_cosp = 2 * (w * x + y * z)
-        cosr_cosp = 1 - 2 * (x * x + y * y)
-        roll = math.atan2(sinr_cosp, cosr_cosp)
-
-        sinp = 2 * (w * y - z * x)
-        if abs(sinp) >= 1:
-            pitch = math.copysign(math.pi / 2, sinp)
-        else:
-            pitch = math.asin(sinp)
-
-        siny_cosp = 2 * (w * z + x * y)
-        cosy_cosp = 1 - 2 * (y * y + z * z)
-        yaw = math.atan2(siny_cosp, cosy_cosp)
-
-        return roll, pitch, yaw
-    
-    def euler_to_quaternion(self, roll,pitch,yaw):
-        """
-        Helper function to convert euler angles (radians)
-        to quaternion x,y,z,w
-        """
-
     def spawn_robot(self, namespace, initial_pose):
         """
         class method to spawn a robot at a desired initial pose
