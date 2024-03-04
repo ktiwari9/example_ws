@@ -44,7 +44,16 @@ This repository comes with the following ROS 2 Python packages included in the `
 | Package Name | Node Name | Node Description |
 |--------------|-----------|-----------|
 | `robot_spawn_pkg` | `spawn_bot.py` | Python ROS2 node to spawn a custom 4 wheeled robot with camera and lidar at a preset initial pose|
-| `ros_network_viz` |  |  ROS2 utility to graphically show all nodes, topics and services and actions|
+
+## ROS 2 Package Dependencies/Utilities:
+In order to test, debug and deploy you may want to additionally install the following ROS2 dependencies/utilities inside your `*_ws/src`
+
+| Package Name | Install Command | Description |
+|--------------|-----------|-----------|
+| `ros_network_viz` | `git clone https://github.com/ros2/ros_network_viz.git` | ROS2 utility to graphically show all nodes, topics and services and actions|
+
+![RQT Network Visualizer Utility for ROS2](images/rqt_network_viz.png)
+
 
 ## Additional resources:
 | Resource Name | Description |
