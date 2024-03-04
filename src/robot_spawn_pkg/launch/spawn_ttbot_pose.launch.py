@@ -4,7 +4,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 import os
 from robot_spawn_pkg import PACKAGE_NAME
-from ament_index_python.packages import get_package_share_directory, get_package_prefix
+from ament_index_python.packages import get_package_prefix
 
 def generate_launch_description():
     # Set Gazebo Path Variables
@@ -38,6 +38,7 @@ def generate_launch_description():
 
     world_type = world_types.get(default_world_idx, 'empty.world') # Spawn Empty in case of invalid index
 
+    print("Default World Type for Gazebo =="+ world_type)
 
     world_name = DeclareLaunchArgument(
         'world_name',
@@ -48,6 +49,8 @@ def generate_launch_description():
         'entity_name',
         default_value='ttbot',
         description='Name of robot to spawn')
+    
+    print("Set world and entity names. Launching Node..........")
     
 
     # Create a Node action to launch the GazeboLauncherNode
@@ -62,10 +65,11 @@ def generate_launch_description():
             {'x': -1.8},
             {'y': -0.5},
             {'z': 0.0}
-        ])
+        ]
+        )
 
     return LaunchDescription([
         world_name,
         entity_name,
-        gazebo_launcher_node
+        gazebo_launcher_node,
     ])

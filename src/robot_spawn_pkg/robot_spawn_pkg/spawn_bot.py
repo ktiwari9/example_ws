@@ -1,7 +1,7 @@
 import rclpy
 from rclpy.node import Node
 import subprocess
-import os, shutil,sys
+import os
 import time
 import math
 from ament_index_python.packages import get_package_share_directory
@@ -66,22 +66,7 @@ class GazeboLauncherNode(Node):
         initial_pose.orientation.w = 1.0
 
         # Call Function to Spawn Robot
-        self.spawn_robot(self.entity_name, 'ttbot_ns', initial_pose)
-
-    def copy_world_file_to_default_location(self, PACKAGE_NAME, desired_world):
-        # Get the full path to your world file
-        self.world_source = os.path.join(get_package_share_directory(PACKAGE_NAME), 'worlds', desired_world)
-        
-        # Set the destination directory
-        gazebo_worlds_dir = '/usr/share/gazebo-11/worlds'
-        
-        try:
-            # Copy the world file to the default Gazebo worlds directory
-            self.get_logger().info("Copying World file~~")
-            shutil.copy(self.world_source, gazebo_worlds_dir)
-            self.get_logger().info(f"World file copied successfully to {gazebo_worlds_dir}")
-        except Exception as e:
-            self.get_logger().info(f"Error copying world file: {e}")
+        self.spawn_robot('ttbot_ns', initial_pose)
 
 
     def spawn_robot(self, namespace, initial_pose):
@@ -89,7 +74,7 @@ class GazeboLauncherNode(Node):
         class method to spawn a robot at a desired initial pose
         """
         try:
-            robot_urdf = 'ttbot.urdf.xacro'
+            robot_urdf = self.entity_name + '.urdf.xacro'
             urdf = os.path.abspath(os.path.join(get_package_share_directory(PACKAGE_NAME), 'urdf', robot_urdf))
 
             # Create a client for the SpawnEntity service
