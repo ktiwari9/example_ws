@@ -1,23 +1,25 @@
 from setuptools import setup
-from setuptools import find_packages
-import os
+from robot_spawn_pkg import PACKAGE_NAME
 
-package_name = 'robot_spawn_pkg'
+
 
 setup(
-    name=package_name,
+    name=PACKAGE_NAME,
     version='0.0.0',
-    packages=[package_name],
+    packages=[PACKAGE_NAME],
     data_files=[
         ('share/ament_index/resource_index/packages',
-            ['resource/' + package_name]),
-        ('share/' + package_name, ['package.xml']),
-        ('share/' + package_name + '/launch/', [
+            ['resource/' + PACKAGE_NAME]),
+        ('share/' + PACKAGE_NAME, ['package.xml']),
+        ('share/' + PACKAGE_NAME + '/launch/', [
             'launch/spawn_ttbot.launch.py',
             'launch/spawn_ttbot_pose.launch.py',
             ]),
-        ('share/' + package_name + '/urdf/', ['urdf/ttbot.urdf.xacro']),
-        ('share/' + package_name + '/worlds/', [
+        ('share/' + PACKAGE_NAME + '/urdf/', [
+            'urdf/ttbot.urdf.xacro',
+            'urdf/ttbot.gazebo',
+            'urdf/ttbot.urdf']),
+        ('share/' + PACKAGE_NAME + '/worlds/', [
             'worlds/office.world',
             'worlds/empty.world'
             ])
@@ -32,7 +34,6 @@ setup(
     entry_points={
         'console_scripts': [
             'robot_spawner = robot_spawn_pkg.spawn_bot:main',
-            'gazebo_launcher = robot_spawn_pkg.gazebo_launcher:main'
         ],
     },
 )

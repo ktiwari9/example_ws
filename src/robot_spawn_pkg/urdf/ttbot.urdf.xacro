@@ -1,9 +1,9 @@
 <?xml version='1.0'?>
 
-<robot name="bocbot" 
+<robot name="ttbot" 
   xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="bocbot.gazebo" />
+  <xacro:include filename="ttbot.gazebo" />
 
   <link name="robot_footprint"></link>
 

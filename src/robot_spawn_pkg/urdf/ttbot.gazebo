@@ -5,7 +5,7 @@
   <gazebo>
     <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_diff_drive.so">
       <ros>
-        <namespace>/bocbot</namespace>
+        <namespace>/ttbot</namespace>
         <argument>/cmd_vel:=mr_cme_vel</argument>
         <argument>/odom:=odom</argument>
       </ros>
@@ -62,9 +62,9 @@
       </camera>
       <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
         <ros>
-          <namespace>/bocbot</namespace>
-          <argument>camera/image_raw:=/bocbot/camera/image</argument>
-          <argument>camera/camera_info:=/bocbot/camera/image/camera_info</argument>
+          <namespace>/ttbot</namespace>
+          <argument>camera/image_raw:=/ttbot/camera/image</argument>
+          <argument>camera/camera_info:=/ttbot/camera/image/camera_info</argument>
         </ros>
         <camera_name>camera</camera_name>
         <frame_name>camera</frame_name>
@@ -106,7 +106,7 @@
       <update_rate>30</update_rate>
       <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_ray_sensor.so">
         <ros>
-          <namespace>/bocbot</namespace>
+          <namespace>/ttbot</namespace>
           <argument>~/out:=scan</argument>
         </ros>
         <output_type>sensor_msgs/LaserScan</output_type>
