@@ -35,6 +35,15 @@ if ! is_package_installed "python3-scipy"; then
     sudo apt-get -y install python3-scipy
 fi
 
+# Check and install TF library
+packages=("ros-foxy-turtle-tf2-py" "ros-foxy-tf2-tools" "ros-foxy-tf-transformations")
+for package in "${packages[@]}"; do
+    if ! is_package_installed "$package"; then
+        sudo apt install -y "$package"
+    fi
+sudo pip3 install transforms3d # installation by hand required
+done
+
 # Source ROS 2 setup.bash
 if ! grep -q "source /opt/ros/foxy/setup.bash" ~/.bashrc; then
     echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc

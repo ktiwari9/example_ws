@@ -11,6 +11,7 @@ from ament_index_python.packages import get_package_share_directory
 from gazebo_msgs.srv import SpawnEntity, DeleteEntity, SetEntityState, GetEntityState
 from geometry_msgs.msg import Pose
 from robot_spawn_pkg import PACKAGE_NAME
+from tf_transformations import quaternion_from_euler
 
 
 class GazeboLauncherNode(Node):
@@ -21,6 +22,9 @@ class GazeboLauncherNode(Node):
             'x': float x-position
             'y': float y-position
             'z': float z-position
+            'r': float roll in radians
+            'p': float pitch
+            'y': float yaw
     """
 
     def __init__(self):
@@ -34,6 +38,9 @@ class GazeboLauncherNode(Node):
         self.declare_parameter('x')
         self.declare_parameter('y')
         self.declare_parameter('z')
+        self.declare_parameter('R')
+        self.declare_parameter('P')
+        self.declare_parameter('Y')
 
         # Assign parameter values to class variables
         self.entity_name= self.get_parameter('entity_name').value
@@ -41,6 +48,9 @@ class GazeboLauncherNode(Node):
         self.x= self.get_parameter('x').value
         self.y= self.get_parameter('y').value
         self.z= self.get_parameter('z').value
+        self.R = self.get_parameter('R').value
+        self.P = self.get_parameter('P').value
+        self.Y = self.get_parameter('Y').value
         
 
         # Set the world
@@ -66,13 +76,44 @@ class GazeboLauncherNode(Node):
         initial_pose.position.x = self.x
         initial_pose.position.y = self.y
         initial_pose.position.z = self.z
-        initial_pose.orientation.x = 0.0  # desired roll 
-        initial_pose.orientation.y = 0.0  # desired pitch
-        initial_pose.orientation.z = math.sin(math.pi/8)  # desired yaw
-        initial_pose.orientation.w = 1.0
+        (initial_pose.orientation.x, 
+        initial_pose.orientation.y,
+        initial_pose.orientation.z,
+        initial_pose.orientation.w) = quaternion_from_euler(self.R,self.P,self.Y)
 
         # Call Function to Spawn Robot
         self.spawn_robot('ttbot_ns', initial_pose)
+
+    def quaternion_to_euler(self, quaternion):
+        """
+        Utility function to convert quaternion to euler anlges in radians
+        """
+        x = quaternion.x    #[1]
+        y = quaternion.y    #[2]
+        z = quaternion.Z    #[3]
+        w = quaternion.w    #[0]
+
+        sinr_cosp = 2 * (w * x + y * z)
+        cosr_cosp = 1 - 2 * (x * x + y * y)
+        roll = math.atan2(sinr_cosp, cosr_cosp)
+
+        sinp = 2 * (w * y - z * x)
+        if abs(sinp) >= 1:
+            pitch = math.copysign(math.pi / 2, sinp)
+        else:
+            pitch = math.asin(sinp)
+
+        siny_cosp = 2 * (w * z + x * y)
+        cosy_cosp = 1 - 2 * (y * y + z * z)
+        yaw = math.atan2(siny_cosp, cosy_cosp)
+
+        return roll, pitch, yaw
+    
+    def euler_to_quaternion(self, roll,pitch,yaw):
+        """
+        Helper function to convert euler angles (radians)
+        to quaternion x,y,z,w
+        """
 
     def spawn_robot(self, namespace, initial_pose):
         """

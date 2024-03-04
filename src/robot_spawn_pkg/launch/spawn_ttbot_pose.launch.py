@@ -5,7 +5,7 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-import os, xacro
+import os, xacro, math
 from robot_spawn_pkg import PACKAGE_NAME
 from ament_index_python.packages import get_package_prefix,get_package_share_directory
 
@@ -68,14 +68,18 @@ def generate_launch_description():
             {'use_sim_time': use_sim_time},
             {'entity_name': LaunchConfiguration('entity_name')},
             {'world_name': LaunchConfiguration('world_name')},
-            {'x': -1.8}, # 3D position
-            {'y': -0.5},
+            {'x': 0.0}, # 3D position
+            {'y': 0.0},
             {'z': 0.0},
-            {'r': 0.0}, # roll, pitch, yaw in Radians
-            {'p': 0.0},
-            {'y': 0.0}
+            {'R': 0.0}, # roll, pitch, yaw in Radians
+            {'P': 0.0},
+            {'Y': math.pi/2}
         ],
-        arguments=["-topic", "/robot_description"]
+        arguments=["-topic", "/robot_description"],
+        remappings=[
+            ('/gazebo/spawn_entity','/spawn_entity'),
+            ('/gazebo/delete_entity','delete_entity')
+        ]
         )
     
     # Publish Robot's URDF on ROS topic for displaying robot on screen
