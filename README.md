@@ -1,6 +1,6 @@
 # ROS 2 Workspace with Worked examples in Python
 ## Course material for [TT102: Introduction to Python for Robotics](https://www.youtube.com/playlist?list=PL1gZJiDypBN4ZYK7Z7EjGrAHSxRekjWwb)
-## Instructor: [Dr. Kshitij Tiwari](www.kshitijtiwari.com)
+## Instructor: [Dr. Kshitij Tiwari](https://kshitijtiwari.com/)
 
 
 
