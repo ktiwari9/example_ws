@@ -47,11 +47,14 @@ class GazeboLauncherNode(Node):
         world = os.path.abspath(os.path.join(get_package_share_directory(PACKAGE_NAME), 'worlds', self.world_name))
         self.get_logger().info(f"Setting World File Type: {self.world_name}")
 
-        self.get_logger().info(f'World path: {world}')
+        # self.get_logger().info(f'World path: {world}')
         
         # Create a subprocess to launch Gazebo server
-        cmd = ['gazebo', '--verbose', '-s', 'libgazebo_ros_factory.so', world]
-        self.get_logger().info(f"Subprocess command: {' '.join(cmd)}")
+        cmd = ['gazebo', '--verbose', 
+               '-s','libgazebo_ros_init.so',
+               '-s', 'libgazebo_ros_factory.so',
+               world]
+        # self.get_logger().info(f"Subprocess command: {' '.join(cmd)}")
         self.gazebo_process = subprocess.Popen(cmd)
         self.get_logger().info("Done opening world file~~")
         
@@ -70,7 +73,6 @@ class GazeboLauncherNode(Node):
 
         # Call Function to Spawn Robot
         self.spawn_robot('ttbot_ns', initial_pose)
-
 
     def spawn_robot(self, namespace, initial_pose):
         """
@@ -118,7 +120,7 @@ class GazeboLauncherNode(Node):
         self.get_logger().info("Gazebo subprocess killed")
 
 
-class Delete_Entity(Node):
+class DeleteEntityNode(Node):
     """
     Class to remove entities from a Gazebo Scene.
 
@@ -127,7 +129,7 @@ class Delete_Entity(Node):
     """
     def __init__(self, entities_to_delete=None):
         super().__init__('Remove_Entity')
-        self.cli = self.create_client(srv_type=DeleteEntity, srv_name="/delete_entity")
+        self.cli = self.create_client(srv_type=DeleteEntity, srv_name="/gazebo/delete_entity")
         while not self.cli.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('Service not available, waiting again...')
 
@@ -164,16 +166,41 @@ class Delete_Entity(Node):
 
     def delete_entities(self, entities=None):
         entities = entities or self.entities_to_delete
-        for entity in entities:
+        entity_to_find = ["ball"] # Add more entities here as needed
+        # find case insensitive match for all entities to delete
+        entity_to_del = [entity for target_entity in entity_to_find for entity in entities if entity.lower() == target_entity.lower()]
+        for entity in entity_to_del:
+            # Iteratively delete all requested entities
             req = DeleteEntity.Request()
             req.name = entity
-
             self.future = self.cli.call_async(req)
             self.get_logger().info(f'Deleting entity {entity} from scene')
             rclpy.spin_until_future_complete(self, self.future)
 
         self.destroy_node()
 
+
+class ResetModelPose(Node):
+    """
+    Query the pose of a model and reset it to a new pose
+    Currently unused.
+    """
+    def __init__(self):
+        super().__init__('set_model_pose')
+        # Call the set_parameters service of the robot state publisher to update the pose of the robot
+        self.cli = self.create_client(
+            srv_type=SetEntityState, srv_name="/set_entity_state")
+        while not self.cli.wait_for_service(timeout_sec=1.0):
+            self.get_logger().info('Waiting for service %s...')
+        # Set the initial pose of the robot
+
+    def send_request(self, model_name, pose):
+        req = SetEntityState.Request()
+        req.state._name = model_name
+        req.state._pose = pose
+        self.future = self.cli.call_async(req)
+        
+        rclpy.spin_until_future_complete(self, self.future)
 
 
 def main(args=None):
@@ -195,6 +222,22 @@ def main(args=None):
         gazebo_launcher_node.get_logger().info("Done! Shutting down node.")
         gazebo_launcher_node.destroy()
         rclpy.shutdown()
+
+    ##################################################################################
+
+    # Create Entity Deletion instance from the currently open world
+    entity_deletion_node = DeleteEntityNode()
+    entity_deletion_node.get_logger().info("Initializing Entity Deletion Node")
+    try:
+        entity_deletion_node.get_logger().info("Spinning Entity Deletion Node")
+        rclpy.spin_once(entity_deletion_node)
+
+    finally:
+        # Destroy the node
+        entity_deletion_node.get_logger().info("Done deletion! Shutting down node.")
+        entity_deletion_node.destroy()
+        rclpy.shutdown()
+
 
 if __name__ == '__main__':
     main()
