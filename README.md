@@ -32,18 +32,26 @@ git clone https://github.com/yourusername/example_ws.git
 ./pkg_install.bash
 ```
 
+### Launching the relevant packages and Sims
+```
+./launch_gz.bash
+```
+
+
 ## ROS 2 Python Packages Included:
 This repository comes with the following ROS 2 Python packages included in the `src/` folder.
 
 | Package Name | Node Name | Node Description |
 |--------------|-----------|-----------|
 | `robot_spawn_pkg` | `spawn_bot.py` | Python ROS2 node to spawn a custom 4 wheeled robot with camera and lidar at a preset initial pose|
+| `ros_network_viz` |  |  ROS2 utility to graphically show all nodes, topics and services and actions|
 
 ## Additional resources:
 | Resource Name | Description |
 |-----------|-----------|
 | `basic_bocbot` | A [Github repository](https://github.com/bunchofcoders/basic_bocbot/tree/master) with the office world and robot utilized in this lecture series |
 | Introduction to ROS | A [Lecture](https://youtu.be/98AcSbtm2tI?si=CcaCErnL9YAtFSol) introducing ROS and ROS 2 to absolute beginners with intuitive examples|
+| RQT Network | A GUI-based ROS2 utility to [visualize](https://github.com/ktiwari9/ros_network_viz) all nodes, topics, services and actions in ROS2|
 
 ## License
 This project is licensed under the MIT License.
