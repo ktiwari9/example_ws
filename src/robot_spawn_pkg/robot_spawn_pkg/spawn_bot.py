@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 import rclpy
 from rclpy.node import Node
 import subprocess

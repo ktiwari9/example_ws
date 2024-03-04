@@ -68,23 +68,39 @@ def generate_launch_description():
             {'use_sim_time': use_sim_time},
             {'entity_name': LaunchConfiguration('entity_name')},
             {'world_name': LaunchConfiguration('world_name')},
-            {'x': -1.8},
+            {'x': -1.8}, # 3D position
             {'y': -0.5},
-            {'z': 0.0}
+            {'z': 0.0},
+            {'r': 0.0}, # roll, pitch, yaw in Radians
+            {'p': 0.0},
+            {'y': 0.0}
         ],
         arguments=["-topic", "/robot_description"]
         )
     
+    # Publish Robot's URDF on ROS topic for displaying robot on screen
     robot_state_publisher = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         name="robot_state_publisher",
         parameters=[{"robot_description": robot_desc}],
         output="screen")
+    
+    # Open Rviz
+    # rviz_confif_dir = os.path.join(get_package_share_directory(PACKAGE_NAME))
+    rviz_node = Node(
+        package='rviz2',
+        executable='rviz2',
+        output='screen',
+        name='rviz_node',
+        parameters=[{'use_sim_time':use_sim_time}],
+        # arguments=['-d', rviz_config_dir]
+    )
 
     return LaunchDescription([
         world_name,
         entity_name,
         gazebo_launcher_node,
-        robot_state_publisher
+        robot_state_publisher,
+        rviz_node
     ])
