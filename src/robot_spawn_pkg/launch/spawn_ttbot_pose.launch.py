@@ -1,10 +1,13 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
-import os
+import os, xacro
 from robot_spawn_pkg import PACKAGE_NAME
-from ament_index_python.packages import get_package_prefix
+from ament_index_python.packages import get_package_prefix,get_package_share_directory
 
 def generate_launch_description():
     # Set Gazebo Path Variables
@@ -24,7 +27,7 @@ def generate_launch_description():
     else:
         os.environ['GAZEBO_PLUGIN_PATH'] = install_dir + '/lib' + ':' + gazebo_models_path
 
-    print("Gazebo Plugin Path=="+str(os.environ['GAZEBO_PLUGIN_PATH']))
+    # print("Gazebo Plugin Path=="+str(os.environ['GAZEBO_PLUGIN_PATH']))
 
 
     # Declare a launch argument for the world file
@@ -50,8 +53,11 @@ def generate_launch_description():
         default_value='ttbot',
         description='Name of robot to spawn')
     
-    print("Set world and entity names. Launching Node..........")
-    
+    # Prepare robot description from Xacro file
+    xacro_file = os.path.join(get_package_share_directory(PACKAGE_NAME), 'urdf/', 'ttbot.urdf.xacro')
+    assert os.path.exists(xacro_file), "The xacro file doesnt exist in " + str(xacro_file)
+    robot_description_config = xacro.process_file(xacro_file)
+    robot_desc = robot_description_config.toxml()
 
     # Create a Node action to launch the GazeboLauncherNode
     gazebo_launcher_node = Node(
@@ -65,11 +71,20 @@ def generate_launch_description():
             {'x': -1.8},
             {'y': -0.5},
             {'z': 0.0}
-        ]
+        ],
+        arguments=["-topic", "/robot_description"]
         )
+    
+    robot_state_publisher = Node(
+        package="robot_state_publisher",
+        executable="robot_state_publisher",
+        name="robot_state_publisher",
+        parameters=[{"robot_description": robot_desc}],
+        output="screen")
 
     return LaunchDescription([
         world_name,
         entity_name,
         gazebo_launcher_node,
+        robot_state_publisher
     ])
