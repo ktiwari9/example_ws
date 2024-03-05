@@ -1,5 +1,11 @@
-# Useful commands 
+# Useful commands for ROS 2
 
 # Creating a Python ROS2 package from terminal
 cd ~/example_ws/src
 ros2 pkg create my_python_pkg --build-type ament_python 
+
+# Compile all ROS2 packages
+colcon build --symlink-install
+
+# Compile only selected ROS2 Packages
+colcon build --packages-select my_python_pkg 
