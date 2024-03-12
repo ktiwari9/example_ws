@@ -8,4 +8,11 @@ ros2 pkg create my_python_pkg --build-type ament_python
 colcon build --symlink-install
 
 # Compile only selected ROS2 Packages
-colcon build --packages-select my_python_pkg 
+colcon build --packages-select my_python_pkg
+
+# Visualize TF Tree as pdf
+ros2 run tf2_tools view_frames.py
+
+# Spawn robot in RVIZ2 using urdf
+# Needs abs path to URDF file
+ros2 launch urdf_tutorial display.launch.py model:=/example_ws/src/robot_spawn_pkg/urdf/ttbot.urdf.xacro

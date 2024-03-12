@@ -15,7 +15,7 @@ source install/setup.bash
 ros2 launch robot_spawn_pkg spawn_ttbot_pose.launch.py &
 
 # Launch RQT_Network to visualize all nodes, services and topics
-ros2 run ros_network_viz ros_network_viz
+# ros2 run ros_network_viz ros_network_viz &
 
 # Launch Robot Mover
-ros2 launch robot_mover_pkg robot_mover.launch.py
+# ros2 launch robot_mover_pkg robot_mover.launch.py

@@ -50,4 +50,31 @@ if ! grep -q "source /opt/ros/foxy/setup.bash" ~/.bashrc; then
     source ~/.bashrc
 fi
 
+# Install Tkinter and dependencies
+sudo apt update
+if ! is_package_installed "python3-tk"; then
+    sudo apt install -y python3-tk
+fi
+
+# Install ROS2 Joint State Publisher GUI
+sudo apt update
+if ! is_package_installed "ros-foxy-joint-state-publisher-gui"; then
+    sudo apt install -y ros-foxy-joint-state-publisher-gui
+    sudo apt install -y ros-foxy-xacro
+fi
+
+# Install TF Frames to be able to visualize the TF tree
+sudo apt update
+if ! is_package_installed "ros-foxy-tf2-tools"; then
+    sudo apt install -y ros-foxy-tf2-tools
+fi
+
+# Install URDF tutorial to spawn robot directly from URDF
+sudo apt update
+if ! is_package_installed "ros-foxy-urdf-tutorial"; then
+    sudo apt install -y ros-foxy-urdf-tutorial
+fi
+
+
+
 echo "Installation completed!"
